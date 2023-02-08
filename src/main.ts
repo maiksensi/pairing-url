@@ -1,7 +1,7 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-export class MyStack extends Stack {
+export class UrlShortener extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
@@ -17,7 +17,7 @@ const devEnv = {
 
 const app = new App();
 
-new MyStack(app, 'pairing-url-dev', { env: devEnv });
+new UrlShortener(app, 'url-shortener-dev', { env: devEnv });
 // new MyStack(app, 'pairing-url-prod', { env: prodEnv });
 
 app.synth();
