@@ -4,6 +4,23 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   name: 'pairing-url',
 
+  github: false,
+
+  prettierOptions: {
+    settings: {
+      quoteProps: 'as-needed',
+      singleQuote: true,
+    },
+  },
+
+  gitignore: [
+    'stages/*/secrets.yaml',
+    '.DS_Store',
+    '.idea/',
+    '.tool-versions',
+    '.vscode/',
+  ],
+
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // devDeps: [],             /* Build dependencies for this module. */
