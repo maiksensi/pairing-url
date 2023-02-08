@@ -1,4 +1,6 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 
 export class UrlShortener extends Stack {
@@ -6,6 +8,26 @@ export class UrlShortener extends Stack {
     super(scope, id, props);
 
     // define resources here...
+
+    const getUrlHandler = new NodejsFunction(this, 'getUrlHandler', {
+      entry: './src/getUrlHandler.ts',
+      handler: 'getUrlHandler',
+    });
+
+    const postUrlHandler = new NodejsFunction(this, 'postUrlHandler', {
+      entry: './src/postUrlHandler.ts',
+      handler: 'postUrlHandler',
+    });
+
+    const api = new RestApi(this, 'url-shortener-api', {
+      restApiName: 'url-shortener-api',
+      description: 'App to shorten URLs',
+    });
+
+    api.root.addMethod('POST', new LambdaIntegration(postUrlHandler));
+
+    const getUrl = api.root.addResource('{url}');
+    getUrl.addMethod('GET', new LambdaIntegration(getUrlHandler));
   }
 }
 
